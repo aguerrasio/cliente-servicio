@@ -1,17 +1,37 @@
 package com.springramework.dependences;
 
-import com.springramework.dependences.controllers.MyController;
+import com.springramework.dependences.controllers.*;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ApplicationContext;
 
 @SpringBootApplication
 public class DependencesApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(DependencesApplication.class, args);
 
-		MyController myController = new MyController();
+		ApplicationContext ctx= SpringApplication.run(DependencesApplication.class, args);
+
+		//MyController myController = new MyController();
+		I18nController i18nController = (I18nController) ctx.getBean("i18nController");
+		MyController myController = (MyController) ctx.getBean("myController");
+
+		System.out.println(i18nController.sayHello());
+
+		System.out.println("--- Primary ---");
 		System.out.println(myController.sayHello());
+
+		System.out.println("--- Property---");
+		PropertyInjectedController propertyInjectedController = (PropertyInjectedController)  ctx.getBean("propertyInjectedController");
+		System.out.println(propertyInjectedController.getGreeting());
+
+		System.out.println("--- Setter ---");
+		SetterInjectedController setterInjectedController =(SetterInjectedController) ctx.getBean("setterInjectedController");
+		System.out.println(setterInjectedController.getGreeting());
+
+		System.out.println("--- Constructor ---");
+		ConstructorInjectedController constructorInjectedController = (ConstructorInjectedController)  ctx.getBean("constructorInjectedController");
+		System.out.println(constructorInjectedController.getGreeting());
 	}
 
 }
